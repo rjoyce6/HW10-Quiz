@@ -117,21 +117,52 @@ li:hover {
   background-color:
 }
 
-
 /*========================================================
         Results
 ========================================================*/
-#circle {
-  width: 150px;
-  height: 150px;
+.circle{
+  position: relative;
   margin: 0 auto;
-  border-radius: 100%;
+  width: 200px;
+  height: 200px;
+  background: #bdc3c7;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  overflow: hidden;
 }
 
+.fill{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80%;
+  background: #31a2ac;
+}
 
-#circle p {
-  font-weight: 300;
-  color: white;
-  font-size: 2.5em;
-  padding-top: 50px;
+h3 {
+  position: absolute;
+  width: 100%;
+  top: 60px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  font-size: 40pt;
+  line-height: 0;
+  font-weight: normal;
+}
+
+.circle p {
+  margin: 400px;
+}
+
+/*========================================================
+        Confeeti Effect
+========================================================*/
+canvas{
+  position:absolute;
+	left:0;
+	top:0;
+	z-index:0;
+	border:0px solid #000;
 }

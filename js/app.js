@@ -43,13 +43,12 @@ var question7 = {
                   correct: 0
                 };
 
-// , question3, question4, question5, question6, question7
+// create an array of objects
 
-var questions = [question1, question2];
+var questions = [question1, question2, question3, question4, question5, question6, question7];
 
-// Create Question
+// Initialize variables
 //------------------------------------------------------------------
-
 
 var tags;
 var tagsClass = '';
@@ -65,15 +64,12 @@ var prevousQuestion;
 var previousIndex = 0;
 
 var ulTag = document.getElementsByTagName('ul')[0];
-
 var button = document.getElementById('submit');
-
 var questionTitle = document.getElementById('question');
 
-
-  //save class name so it can be reused easily
-  //if I want to change it, I have to change it one place
-  var classHighlight = 'selected';
+//save class name so it can be reused easily
+//if I want to change it, I have to change it one place
+var classHighlight = 'selected';
 
 
 // Display Answers and hightlight selected item
@@ -91,12 +87,10 @@ function showQuestions (){
     document.getElementById('quizNumber').innerHTML = quizPage;
   }
 
+  //Display Results in the final page
   if (currentIndex ==  (questions.length)) {
     ulTag.innerHTML = '';
     document.getElementById('question').innerHTML = '';
-    button.innerHTML = 'Restart';
-    button.className = 'restart';
-    button.id = 'restart';
 
     showResults();
 
@@ -204,23 +198,184 @@ function checkAnswer (){
 // Final score
 //------------------------------------------------------------------
 function showResults () {
+  //deleting page number
+  document.getElementById('pages').innerHTML='';
+
+  // Change Title
   questionTitle.innerHTML = '<h1>Your Score</h1>';
+
+  // Get the area that will be used to display the user's score
   var newInfo = document.getElementById('quiz-results');
+  //Change the id and className of the area for the circle
   newInfo.innerHTML = '';
   newInfo.id = 'circle';
+  newInfo.className = 'circle';
 
-  document.getElementById('pages').innerHTML = ''
 
-  var newScore = document.createElement('p');
+  //Create a Div for the fill element
+  var newDiv = document.createElement('div');
+  newDiv.className = 'fill';
+  var addHere = document.getElementById('circle');
+  addHere.appendChild(newDiv);
+
+  // add the score to the circle
+  var newScore = document.createElement('h3');
+  newScore.className = 'score';
   var textScore = document.createTextNode(Math.floor((correctAns/questions.length)*100) + '%');
   newScore.appendChild(textScore);
-
-  var addHere = document.getElementById('circle');
   addHere.appendChild(newScore);
 
+  //use jquary to grab the text of the score
+  var score = $(".score").text();
+
+  //fill the circle in base of the score
+  $(".fill").css("height",score);
+
+  if (correctAns >= 5) {
+    var newCongrats = document.createElement('p');
+    var textCongrats = document.createTextNode('Congratulations! You did a Good Job!')
+    newCongrats.appendChild(textCongrats);
+    document.getElementById('display-area').appendChild(newCongrats);
+
+    confettiEffect();
+  }
 
 }
 
 
+// Confetti Effect
+//------------------------------------------------------------------
+function confettiEffect (){
+  //grabing area to create the effect
+  canvas = document.getElementById("canvas");
+  context = canvas.getContext("2d");
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
 
-//
+  // creating the tabel
+  particle = [];
+  particleCount = 0,
+  gravity = 0.3,
+  colors = [
+    '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5',
+    '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50',
+    '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800',
+    '#FF5722', '#795548'
+  ];
+
+  for( var i = 0; i < 300; i++){
+
+    particle.push({
+    	x : width/2,
+    	y : height/2,
+    	boxW : randomRange(5,20),
+    	boxH : randomRange(5,20),
+    	size : randomRange(2,8),
+
+    	spikeran:randomRange(3,5),
+
+    	velX :randomRange(-8,8),
+    	velY :randomRange(-50,-10),
+
+    	angle :convertToRadians(randomRange(0,360)),
+    	color:colors[Math.floor(Math.random() * colors.length)],
+    	anglespin:randomRange(-0.2,0.2),
+
+    	draw : function(){
+    		context.save();
+        context.translate(this.x,this.y);
+        context.rotate(this.angle);
+    		context.fillStyle=this.color;
+    		context.beginPath();
+
+    	  context.fillRect(this.boxW/2*-1,this.boxH/2*-1,this.boxW,this.boxH);
+    		context.fill();
+				context.closePath();
+    		context.restore();
+    	  this.angle += this.anglespin;
+        this.velY*= 0.999;
+    	  this.velY += 0.3;
+
+        this.x += this.velX;
+        this.y += this.velY;
+
+    		if(this.y < 0){
+      	   this.velY *= -0.2;
+      		 this.velX *= 0.9;
+      	};
+
+      	if(this.y > height){
+        	this.anglespin = 0;
+        	this.y = height;
+        	this.velY *= -0.2;
+      		this.velX *= 0.9;
+    	  };
+
+    		if(this.x > width ||this.x< 0){
+        	this.velX *= -0.5;
+        };
+    	},
+  	});
+  }
+
+  function drawScreen(){
+  			context.globalAlpha = 1;
+    		for( var i = 0; i < particle.length; i++){
+    			particle[i].draw();
+    		}
+  }
+
+	function loadImage(url){
+		var img = document.createElement("img");
+		img.src=url;
+		return img;
+	}
+
+  function update(){
+  context.clearRect(0,0,width,height);
+  drawScreen();
+  requestAnimationFrame(update);
+  }
+
+  update();
+
+  function randomRange(min, max){
+  	return min + Math.random() * (max - min );
+  }
+
+  function randomInt(min, max){
+  	return Math.floor(min + Math.random()* (max - min + 1));
+  }
+
+   function convertToRadians(degree) {
+        return degree*(Math.PI/180);
+    }
+
+		function drawStar(cx, cy, spikes, outerRadius, innerRadius,color) {
+    var rot = Math.PI / 2 * 3;
+    var x = cx;
+    var y = cy;
+    var step = Math.PI / spikes;
+
+    context.strokeSyle = "#000";
+    context.beginPath();
+    context.moveTo(cx, cy - outerRadius)
+    for (i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        context.lineTo(x, y)
+        rot += step
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        context.lineTo(x, y)
+        rot += step
+    }
+
+    context.lineTo(cx, cy - outerRadius)
+    context.closePath();
+    context.fillStyle = color;
+    context.fill();
+
+  }
+}
