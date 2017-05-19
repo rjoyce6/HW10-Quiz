@@ -22,21 +22,23 @@
     <!-- Main page -->
     <div class="main">
       <!-- Number of Question  -->
-      <div class="wrapper">
+      <div class="wrapper" id="pages">
         <span id="quizNumber">1</span><span>/7</span>
       </div>
 
       <!-- Quiz Question -->
-      <div class="quiz-questions">
+      <div class="quiz-questions" >
         <p id="question"></p>
         <ul id="answer">
         </ul>
-        <button type="button" name="button" class="submit" id="submit">Submit</button>
+
+        <div id="quiz-results">
+          <button type="button" name="button" class="submit" id="submit">Submit</button>
+
+        </div>
       </div>
 
     </div>
-
-
 
 
     <!-- GET READY FOR SOME JAVASCRIPTING!!! -->
@@ -48,6 +50,7 @@
 
         <!-- Including CSS to Html -->
         <link rel="stylesheet" type="text/css" href="css/style.css">
+
 
         <!-- javascript -->
         <script type="text/javascript" src="js/app.js"> </script>

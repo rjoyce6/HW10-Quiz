@@ -89,18 +89,49 @@ li:hover {
 .main button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
-  background: #4CAF50;
-  width: 40%;
+  width: 20%;
   border: none;
   padding: 15px;
   color: #FFFFFF;
 }
 
-.main button:hover, .main button:active, .main button:focus {
+.submit:hover, .submit:active, .submit:focus {
   background: #43A047;
+}
+
+.submit {
+  background: #4CAF50;
 }
 
 /*next question button*/
 .next {
   background: #fa994a;
+  min-width: 120px;
+}
+
+.next:hover, .next:active, .next:focus {
+  background: #e38a42;
+}
+
+.restart {
+  background-color:
+}
+
+
+/*========================================================
+        Results
+========================================================*/
+#circle {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 100%;
+}
+
+
+#circle p {
+  font-weight: 300;
+  color: white;
+  font-size: 2.5em;
+  padding-top: 50px;
 }
